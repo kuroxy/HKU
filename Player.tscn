@@ -1,0 +1,58 @@
+[gd_scene load_steps=7 format=3 uid="uid://cod3ihliaeqta"]
+
+[ext_resource type="Script" path="res://Player.gd" id="1_v2nny"]
+[ext_resource type="Texture2D" uid="uid://1xpvaa6n70dp" path="res://player.png" id="2_nfvip"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_id7w2"]
+radius = 3.16228
+
+[sub_resource type="Animation" id="Animation_0y3pf"]
+resource_name = "Move"
+loop_mode = 1
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Player:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, -0.424115, -0.25, 0, 0.25, 0, 0.439823, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.4, 0.7, 1)
+}
+
+[sub_resource type="Animation" id="Animation_aropq"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Player:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6fqh4"]
+_data = {
+"Move": SubResource("Animation_0y3pf"),
+"RESET": SubResource("Animation_aropq")
+}
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+position = Vector2(117, 68)
+collision_layer = 2
+script = ExtResource("1_v2nny")
+
+[node name="Player" type="Sprite2D" parent="."]
+texture = ExtResource("2_nfvip")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_id7w2")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_6fqh4")
+}
