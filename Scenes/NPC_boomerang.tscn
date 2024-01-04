@@ -1,9 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://bm2gc3ccmsqtt"]
+[gd_scene load_steps=12 format=3 uid="uid://cf5fcht4td3fq"]
 
-[ext_resource type="Script" path="res://NPC1.gd" id="1_4pcwi"]
-[ext_resource type="Texture2D" uid="uid://ufymfm5rs74u" path="res://npc1.png" id="1_iq5sk"]
-[ext_resource type="Texture2D" uid="uid://c5hejs64lanlr" path="res://dialogue1.png" id="2_4x54m"]
-[ext_resource type="Texture2D" uid="uid://cyyacmm08dkg3" path="res://wannatalk.png" id="3_djrc4"]
+[ext_resource type="Script" path="res://Scripts/NPC_boomerang.gd" id="1_tq6hl"]
+[ext_resource type="Texture2D" uid="uid://dxrxqrdufy1of" path="res://guard.png" id="2_mj2q4"]
+[ext_resource type="Texture2D" uid="uid://cyyacmm08dkg3" path="res://wannatalk.png" id="4_xpqvk"]
 
 [sub_resource type="Animation" id="Animation_qjg62"]
 resource_name = "Idle"
@@ -69,8 +68,8 @@ tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "handle_modes": PackedInt32Array(0, 0, 0, 0, 0),
-"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1.105, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0.86, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 0.5, 1, 1.6, 2)
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1.8, -0.25, 0, 0.12, 0, 1, -0.25, 0, 0.25, 0, 0.5, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.6, 1, 1.6, 2)
 }
 tracks/1/type = "bezier"
 tracks/1/imported = false
@@ -91,7 +90,7 @@ tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "handle_modes": PackedInt32Array(0, 0, 0, 0, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, -0.141372, -0.25, 0, 0.25, 0, 0.155334, -0.25, 0, 0.25, 0, -0.268781, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, -0.2, -0.25, 0, 0.25, 0, 0.155334, -0.25, 0, 0.25, 0, -0.268781, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0, 0.4, 0.8, 1.6, 2)
 }
 
@@ -100,6 +99,31 @@ _data = {
 "Idle": SubResource("Animation_qjg62"),
 "RESET": SubResource("Animation_n466g"),
 "Talking": SubResource("Animation_tmufe")
+}
+
+[sub_resource type="Animation" id="Animation_jdg6w"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Wannatalk:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Wannatalk:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(-10, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
 }
 
 [sub_resource type="Animation" id="Animation_uykys"]
@@ -128,62 +152,43 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.4, 1)
 }
 
-[sub_resource type="Animation" id="Animation_jdg6w"]
-length = 0.001
-tracks/0/type = "bezier"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Wannatalk:position:x")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-tracks/1/type = "bezier"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Wannatalk:position:y")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(-10, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_j3kw4"]
 _data = {
 "RESET": SubResource("Animation_jdg6w"),
 "Talk": SubResource("Animation_uykys")
 }
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_g5yoi"]
+radius = 5.0
+
 [node name="NPC" type="Node2D"]
-script = ExtResource("1_4pcwi")
-dialogue_textures = Array[Texture2D]([ExtResource("2_4x54m")])
-dialogue_maxindex = Array[int]([12])
-dialogueTime = 2.2
+script = ExtResource("1_tq6hl")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 scale = Vector2(1.165, 1)
-texture = ExtResource("1_iq5sk")
+texture = ExtResource("2_mj2q4")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-autoplay = "Idle"
 libraries = {
 "": SubResource("AnimationLibrary_3p4y4")
 }
+autoplay = "Idle"
+speed_scale = 2.0
 
 [node name="Wannatalk" type="Sprite2D" parent="."]
 position = Vector2(0, -10)
-texture = ExtResource("3_djrc4")
+texture = ExtResource("4_xpqvk")
 
 [node name="AnimationTalking" type="AnimationPlayer" parent="."]
-autoplay = "Talk"
 libraries = {
 "": SubResource("AnimationLibrary_j3kw4")
 }
+autoplay = "Talk"
 
 [node name="DialogTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_g5yoi")

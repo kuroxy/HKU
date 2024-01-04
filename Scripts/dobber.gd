@@ -58,10 +58,11 @@ func spawn(pl, rot, force):
 	p_pos = position
 	
 	working_speed = (max(min_distance,min(force,max_distance))/max_distance)*(maxspeed-minspeed)+minspeed
-
+	
 	$Stop.start(duration)
 	
 func reel():
+	$AudioStreamPlayer2D.play()
 	reeling = true
 	fishable = false
 	if not $ExlamTime.is_stopped():
@@ -92,6 +93,7 @@ func _process(delta):
 	elif reeling:
 		if (position-player.position).length() < 5:
 			player.reeled_dobber()
+			
 			queue_free()
 		
 		

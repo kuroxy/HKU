@@ -5,6 +5,8 @@ extends Node2D
 @export var dialogue_maxindex: Array[int] = []
 var current_dialogue_index = -1
 var started_dialogue = -1
+var wanna_talk_texture = null
+
 
 @export var dialogueTime = 2.
 
@@ -16,6 +18,7 @@ func dialogue_time():
 
 func start_dialogue(dialoguenumber):
 	started_dialogue = dialoguenumber
+	wanna_talk_texture = $Wannatalk.texture
 	$Wannatalk.texture = dialogue_textures[dialoguenumber]
 	$Wannatalk.hframes = dialogue_maxindex[dialoguenumber]
 	$Wannatalk.frame = 0
@@ -27,7 +30,9 @@ func dialogue():
 		if $Wannatalk.frame + 1 >= dialogue_maxindex[started_dialogue]:
 			current_dialogue_index = -1
 			started_dialogue = -1
-			$Wannatalk.hide()
+			$Wannatalk.texture = wanna_talk_texture
+			$Wannatalk.hframes = 1
+			$Wannatalk.frame = 0
 			$AnimationPlayer.play("Idle", -1)
 			return
 			
@@ -53,5 +58,10 @@ func _process(delta):
 	if started_dialogue!=-1:
 		dialogue()
 		$AnimationPlayer.play("Talking", 0)
+		
+		if started_dialogue == 0 and $Wannatalk.frame == 1:
+			if player:
+				player[0].select_tool(0)
+			
 
 		

@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://c2vo5nb1mtmbd"]
+[gd_scene load_steps=9 format=3 uid="uid://c2vo5nb1mtmbd"]
 
 [ext_resource type="Texture2D" uid="uid://brhm2yr43apky" path="res://Full.png" id="1_p6ul8"]
 [ext_resource type="PackedScene" uid="uid://cod3ihliaeqta" path="res://Player.tscn" id="2_gwjar"]
+[ext_resource type="Script" path="res://Camera2D.gd" id="3_53lge"]
 [ext_resource type="PackedScene" uid="uid://bm2gc3ccmsqtt" path="res://NPC1.tscn" id="3_fltjl"]
+[ext_resource type="Script" path="res://Boomerang Area.gd" id="5_6un56"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_o0q75"]
 texture = ExtResource("1_p6ul8")
@@ -522,9 +524,11 @@ texture_region_size = Vector2i(10, 10)
 20:3/0 = 0
 20:3/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 20:3/0/physics_layer_0/angular_velocity = 0.0
+20:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-5, -5, -5, 5, 5, 5, 5, -5)
 20:4/0 = 0
 20:4/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 20:4/0/physics_layer_0/angular_velocity = 0.0
+20:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-5, -5, -5, 5, 5, 5, 5, -5)
 20:5/0 = 0
 20:5/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 20:5/0/physics_layer_0/angular_velocity = 0.0
@@ -2796,6 +2800,9 @@ physics_layer_0/collision_layer = 1
 physics_layer_0/collision_mask = 2
 sources/0 = SubResource("TileSetAtlasSource_o0q75")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x4qke"]
+size = Vector2(144, 40)
+
 [node name="World" type="Node"]
 
 [node name="TileMap" type="TileMap" parent="."]
@@ -2809,8 +2816,10 @@ position = Vector2(406, 336)
 SPEED = 50.0
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(406, 336)
+position = Vector2(433, 294)
 zoom = Vector2(4, 4)
+script = ExtResource("3_53lge")
+camera_speed = 3
 
 [node name="Fishing Area" type="Area2D" parent="."]
 position = Vector2(470, 419)
@@ -2819,6 +2828,17 @@ position = Vector2(470, 419)
 position = Vector2(0, 2)
 polygon = PackedVector2Array(-109, -89, -86, -88, -71, -68, -45, -67, -41, -57, -26, -66, -15, -65, -13, -58, 5, -56, 8, -48, 28, -48, 30, -59, 94, -58, 113, -39, 145, -36, 155, -15, 167, 24, 132, 47, 58, 59, -80, 39, -152, -20, -138, -54)
 
-[node name="NPC" parent="." instance=ExtResource("3_fltjl")]
+[node name="Fisher NPC" parent="." instance=ExtResource("3_fltjl")]
 position = Vector2(369, 321)
 dialogueTime = 2.0
+
+[node name="Boomerang Area" type="Area2D" parent="."]
+position = Vector2(838, 280)
+script = ExtResource("5_6un56")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boomerang Area"]
+position = Vector2(1, 2)
+shape = SubResource("RectangleShape2D_x4qke")
+
+[connection signal="body_entered" from="Boomerang Area" to="Camera2D" method="_on_boomerang_area_body_entered"]
+[connection signal="body_exited" from="Boomerang Area" to="Camera2D" method="_on_boomerang_area_body_exited"]

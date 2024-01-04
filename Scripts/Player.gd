@@ -5,13 +5,13 @@ extends CharacterBody2D
 @export var boomerang_dodge_max = 1
 
 
-var selected_tool = 0
+var selected_tool = -1
 var selected_tools = ["Fishing Rod", "Boomerang", "Marbles"]
 
-var boomerang_scene = preload("res://Boomerang.tscn")
+var boomerang_scene = preload("res://Scenes/Boomerang.tscn")
 var boomerang_dodge = 0
 
-var dobber_scene = preload("res://dobber.tscn")
+var dobber_scene = preload("res://Scenes/dobber.tscn")
 var dobber_object = null
 var dobber_recall = false
 
@@ -74,6 +74,8 @@ func shoot_boomerang():
 	
 	
 func shoot_dobber():
+	$CastingFish.pitch_scale = 1
+	$CastingFish.play() 
 	var dobber = dobber_scene.instantiate()
 	var shoot_rotation = position.angle_to_point(get_global_mouse_position())
 	var shoot_force = position.distance_to(get_global_mouse_position())
@@ -82,6 +84,8 @@ func shoot_dobber():
 	return dobber
 	
 func reel_dobber():
+	$CastingFish.pitch_scale = .5
+	$CastingFish.play() 
 	dobber_object.reel()
 
 func reeled_dobber():
@@ -94,7 +98,25 @@ func boomerang_hit(boomerang):
 		boomerang.queue_free()
 		has_boomerang = true
 
+func select_tool(toolindex):
+	if toolindex > 3 or toolindex < 0:
+		return
+	$Player.frame = 4
+	$Sprite2D.frame = toolindex
+	$Sprite2D.show()
+	$ToolTimer.start(1)
+	selected_tool = toolindex
 
+
+func select_tool_continue():
+	$Sprite2D.hide()
+	if selected_tool == 0:
+		$Player.frame = 2
+	elif selected_tool == 1:
+		$Player.frame = 3
+	elif selected_tool == 3:
+		$Player.frame = 2
+	
 func _input(event):
 	if event.is_action_released("Fire"):
 		if selected_tool == 0 and dobber_object==null and dobber_recall == false:
@@ -106,3 +128,5 @@ func _input(event):
 		if has_boomerang and selected_tool == 1:
 			shoot_boomerang()
 			has_boomerang = false
+
+

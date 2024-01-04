@@ -1,7 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://cod3ihliaeqta"]
+[gd_scene load_steps=9 format=3 uid="uid://cod3ihliaeqta"]
 
-[ext_resource type="Script" path="res://Player.gd" id="1_v2nny"]
-[ext_resource type="Texture2D" uid="uid://1xpvaa6n70dp" path="res://player.png" id="2_nfvip"]
+[ext_resource type="Script" path="res://Scripts/Player.gd" id="1_v2nny"]
+[ext_resource type="Texture2D" uid="uid://ulhifjt1ec56" path="res://Players.png" id="2_en048"]
+[ext_resource type="Texture2D" uid="uid://dk2c5y6o58o4l" path="res://Tools.png" id="3_ug02v"]
+[ext_resource type="AudioStream" uid="uid://cteucpe4cfwvs" path="res://audio/ct_prc_essy.wav" id="4_vo0ik"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_id7w2"]
 radius = 3.16228
@@ -42,12 +44,12 @@ _data = {
 }
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
-position = Vector2(117, 68)
 collision_layer = 2
 script = ExtResource("1_v2nny")
 
 [node name="Player" type="Sprite2D" parent="."]
-texture = ExtResource("2_nfvip")
+texture = ExtResource("2_en048")
+hframes = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_id7w2")
@@ -56,3 +58,17 @@ shape = SubResource("CircleShape2D_id7w2")
 libraries = {
 "": SubResource("AnimationLibrary_6fqh4")
 }
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(-1, -11)
+texture = ExtResource("3_ug02v")
+hframes = 3
+
+[node name="ToolTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="CastingFish" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_vo0ik")
+
+[connection signal="timeout" from="ToolTimer" to="." method="select_tool_continue"]

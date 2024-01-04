@@ -38,7 +38,7 @@ func _process(delta):
 		var progress = (duration-$Recall.time_left)/duration
 		
 		var speed = (maxspeed-minspeed)*(1-easeOutSine(progress))+minspeed
-		
+		$AudioStreamPlayer2D.pitch_scale = (1.2-.5)*(easeOutSine(1-progress))+.5
 		position += Vector2(1, 0).rotated(rotation) * delta * speed
 	else:
 		if going_back == false:
@@ -48,7 +48,7 @@ func _process(delta):
 		var progress = (returntimer-$Speeding.time_left)/returntimer
 		
 		var speed = (maxspeed-minspeed)*(1-easeOutSine(1-progress))+minspeed
-	
+		$AudioStreamPlayer2D.pitch_scale = (1.2-.5)*(1-easeOutSine(1-progress))+.5
 		position += Vector2(1, 0).rotated(position.angle_to_point(p_pos)) * delta * speed
 
 func _on_body_entered(body):

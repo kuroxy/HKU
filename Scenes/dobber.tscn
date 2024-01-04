@@ -1,25 +1,26 @@
-[gd_scene load_steps=6 format=3 uid="uid://b60jrk4t2tjdc"]
+[gd_scene load_steps=7 format=3 uid="uid://b60jrk4t2tjdc"]
 
-[ext_resource type="Texture2D" uid="uid://dywac5djx7ynd" path="res://Untitled.png" id="1_fe2y1"]
-[ext_resource type="Script" path="res://dobber.gd" id="1_j2ync"]
-[ext_resource type="Texture2D" uid="uid://dc4abidlfa3b4" path="res://fishies.png" id="2_5rrt6"]
-[ext_resource type="Texture2D" uid="uid://dvuga1dj0tsnt" path="res://fishing_icons.png" id="3_e710v"]
+[ext_resource type="Script" path="res://Scripts/dobber.gd" id="1_0vpkk"]
+[ext_resource type="Texture2D" uid="uid://dc4abidlfa3b4" path="res://fishies.png" id="2_axw6p"]
+[ext_resource type="Texture2D" uid="uid://dywac5djx7ynd" path="res://Untitled.png" id="3_ev850"]
+[ext_resource type="Texture2D" uid="uid://dvuga1dj0tsnt" path="res://fishing_icons.png" id="4_a7ypc"]
+[ext_resource type="AudioStream" uid="uid://by10tht0ton5o" path="res://audio/BoomerangThrow_BW.54381.wav" id="5_g3m2e"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_htf57"]
 radius = 1.0
 
 [node name="Dobber" type="Area2D"]
-script = ExtResource("1_j2ync")
+script = ExtResource("1_0vpkk")
 
 [node name="FishSprites" type="Sprite2D" parent="."]
 visible = false
 position = Vector2(0, 1)
-texture = ExtResource("2_5rrt6")
+texture = ExtResource("2_axw6p")
 offset = Vector2(-5, 0)
 hframes = 4
 
 [node name="Sprite" type="Sprite2D" parent="."]
-texture = ExtResource("1_fe2y1")
+texture = ExtResource("3_ev850")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_htf57")
@@ -34,7 +35,7 @@ default_color = Color(0, 0, 0, 1)
 [node name="FishingIcons" type="Sprite2D" parent="."]
 visible = false
 position = Vector2(0, -10)
-texture = ExtResource("3_e710v")
+texture = ExtResource("4_a7ypc")
 hframes = 2
 
 [node name="QuestionTimeDelay" type="Timer" parent="."]
@@ -48,6 +49,11 @@ one_shot = true
 
 [node name="ExlamTime" type="Timer" parent="."]
 one_shot = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_g3m2e")
+volume_db = -16.241
+pitch_scale = 6.0
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="area_exited" from="." to="." method="_on_area_exited"]
